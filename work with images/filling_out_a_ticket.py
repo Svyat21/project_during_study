@@ -11,18 +11,15 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import argparse
 
-# TODO Следующие строки с настройкой парсера лучше поместить в функцию,
-#  и вызывать её при запуске
-#  модуля. if __name__ == "__main__":
-#  Тогда код с настройками парсера будет запускаться, если модуль будет запущен
-#  и не будет выполняться при импорте модуля.
-human_args = argparse.ArgumentParser(description='filling out the ticket')
-human_args.add_argument('fio', type=str, help='enter your fio')
-human_args.add_argument('from_', type=str, help='where are you flying from')
-human_args.add_argument('to', type=str, help='where are you going')
-human_args.add_argument('date', type=str, help='date of departure')
-human_args.add_argument('--save_ticket', type=str, default='images/probe.png', help='where to save it?')
-human_data = human_args.parse_args()
+
+def get_arguments():
+    human_args = argparse.ArgumentParser(description='filling out the ticket')
+    human_args.add_argument('fio', type=str, help='enter your fio')
+    human_args.add_argument('from_', type=str, help='where are you flying from')
+    human_args.add_argument('to', type=str, help='where are you going')
+    human_args.add_argument('date', type=str, help='date of departure')
+    human_args.add_argument('--save_ticket', type=str, default='images/probe.png', help='where to save it?')
+    return human_args.parse_args()
 
 
 class MakeTicket:
@@ -54,8 +51,10 @@ class MakeTicket:
         print('Билет заполнен!')
 
 
-ticket = MakeTicket(human_data)
-ticket.run()
+if __name__ == '__main__':
+    human_data = get_arguments()
+    ticket = MakeTicket(human_data)
+    ticket.run()
 
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
