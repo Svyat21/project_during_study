@@ -11,6 +11,11 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import argparse
 
+# TODO Следующие строки с настройкой парсера лучше поместить в функцию,
+#  и вызывать её при запуске
+#  модуля. if __name__ == "__main__":
+#  Тогда код с настройками парсера будет запускаться, если модуль будет запущен
+#  и не будет выполняться при импорте модуля.
 human_args = argparse.ArgumentParser(description='filling out the ticket')
 human_args.add_argument('fio', type=str, help='enter your fio')
 human_args.add_argument('from_', type=str, help='where are you flying from')
