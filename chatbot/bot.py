@@ -1,9 +1,17 @@
 import random
 import vk_api
 import vk_api.bot_longpoll
+# TODO Импорт токена лучше сделать с обработкой ошибки
+#  try:
+#     from settings import tok
+#  except ImportError:
+#     settings = None  # Для того, чтобы убрать замечание среду разработки.
+#     print('Для работы бота...')
+#     exit()
 from _key import sicret_tocen
 
 group_id = 199623812
+
 
 class Bot:
 
@@ -25,6 +33,10 @@ class Bot:
 
     def on_event(self, event):
         if event.type == vk_api.bot_longpoll.VkBotEventType.MESSAGE_NEW:
+            # TODO При отправке сообщения вы сами генерируете random_id. В библиотеке для генерации идентификатора
+            #  есть специальная функция vk_api.utils.get_random_id.
+            #  Подробнее можете посмотреть в примерах библиотеки:
+            #  https://github.com/python273/vk_api/blob/master/examples/messages_bot/user_messages_bot.py#L55
             self.api.messages.send(
                 message=event.object.message['text'],
                 random_id=random.randint(0, 2**10),
