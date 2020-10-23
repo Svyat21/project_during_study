@@ -1,22 +1,22 @@
-import random
 import vk_api
 import vk_api.bot_longpoll
-# TODO Импорт токена лучше сделать с обработкой ошибки
-#  try:
-#     from settings import tok
-#  except ImportError:
-#     settings = None  # Для того, чтобы убрать замечание среду разработки.
-#     print('Для работы бота...')
-#     exit()
-from _key import sicret_tocen
+import vk_api.utils
+
+try:
+    from _key import sicret_tocen
+except ImportError:
+    settings = None
+    print('Для работы бота импортируйте свой токен.')
+    exit()
+
 
 group_id = 199623812
 
 
 class Bot:
 
-    def __init__(self, group_id, token):
-        self.group_id = group_id
+    def __init__(self, id_group, token):
+        self.group_id = id_group
         self.token = token
 
         self.vk = vk_api.VkApi(token=token)
@@ -33,13 +33,9 @@ class Bot:
 
     def on_event(self, event):
         if event.type == vk_api.bot_longpoll.VkBotEventType.MESSAGE_NEW:
-            # TODO При отправке сообщения вы сами генерируете random_id. В библиотеке для генерации идентификатора
-            #  есть специальная функция vk_api.utils.get_random_id.
-            #  Подробнее можете посмотреть в примерах библиотеки:
-            #  https://github.com/python273/vk_api/blob/master/examples/messages_bot/user_messages_bot.py#L55
             self.api.messages.send(
                 message=event.object.message['text'],
-                random_id=random.randint(0, 2**10),
+                random_id=vk_api.utils.get_random_id(),
                 peer_id=event.object.message['peer_id'],
             )
         else:
